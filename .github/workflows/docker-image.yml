@@ -14,14 +14,19 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
+      env:
+        GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       run: |
         repo_name="ghcr.io/pschichtel/makepkg"
         tmp_image_name="$repo_name:latest"
         podman build -t "$tmp_image_name" .
-        version="$(podman run --rm "$tmp_image_name" yay --version | cut -d' ' -f2)"
-        major_version="$(echo "$version" | cut -d'.' -f1)"
-        podman tag "$tmp_image_name" "$repo_name:$version" "$repo_name:$major_version"
-        podman push "$tmp_image_name"
-        podman push "$repo_name:$version"
-        podman push "$repo_name:$major_version"
+        if [ "${GITHUB_REF:-}" = "refs/heads/${GITHUB_DEFAULT_BRANCH}" ]
+        then
+          version="$(podman run --rm "$tmp_image_name" yay --version | cut -d' ' -f2)"
+          major_version="$(echo "$version" | cut -d'.' -f1)"
+          podman tag "$tmp_image_name" "$repo_name:$version" "$repo_name:$major_version"
+          podman push "$tmp_image_name"
+          podman push "$repo_name:$version"
+          podman push "$repo_name:$major_version"
+        fi
 
