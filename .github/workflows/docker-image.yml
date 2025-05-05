@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on: [ push, workflow_dispatch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build the Docker image
+      run: |
+        repo_name="ghcr.io/pschichtel/makepkg"
+        tmp_image_name="$repo_name:latest"
+        podman build -t "$tmp_image_name" .
+        version="$(podman run --rm "$tmp_image_name" yay --version | cut -d' ' -f2)"
+        major_version="$(echo "$version" | cut -d'.' -f1)"
+        podman tag "$tmp_image_name" "$repo_name:$version" "$repo_name:$major_version"
+        podman push "$tmp_image_name"
+        podman push "$repo_name:$version"
+        podman push "$repo_name:$major_version"
+
