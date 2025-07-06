@@ -1,6 +1,12 @@
 name: Docker Image CI
 
-on: [ push, workflow_dispatch ]
+on:
+  push:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Update base image]
+    types:
+      - completed
 
 jobs:
   build:
