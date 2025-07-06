@@ -29,7 +29,7 @@ jobs:
         git config user.name "Arch Updater"
         git config user.email "arch-updater@pschichtel.github.io"
         git add Dockerfile
-        if git commit -m 'Up archlinux to digest $new_image_digest'
+        if git commit -m "Upgrade archlinux image to $new_image_name"
         then
           git push
         fi
