@@ -1,0 +1,35 @@
+name: Update base image
+
+on:
+  schedule:
+    - cron: '0 18 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Update image and push change
+      run: |
+        image_name="$(grep -oP 'ghcr\.io/[^@]+' Dockerfile)"
+        docker image pull "$image_name"
+        image_desc="$(docker image inspect "$image_name")"
+        new_image_digest="$(jq -r 'first | .RepoDigests | first | split("@") | last' <<< "$image_desc")"
+        new_image_name="$image_name@$new_image_digest"
+
+        sed -i -r 's!'"$image_name"'\S+!'"$new_image_name"'!g' Dockerfile
+
+        git config user.name "Arch Updater"
+        git config user.email "arch-updater@pschichtel.github.io"
+        git add Dockerfile
+        if git commit -m 'Up archlinux to digest $new_image_digest'
+        then
+          git push
+        fi
+
