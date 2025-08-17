@@ -20,6 +20,8 @@ RUN dir="$(mktemp -d)" \
  && popd \
  && rm -Rf "$dir"
 
+USER "root"
 RUN mkdir /packages
 COPY makepkg.conf /etc/makepkg.conf.d/z-makepkg.conf
+USER "$USERNAME"
 
