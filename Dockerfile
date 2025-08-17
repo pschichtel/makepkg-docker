@@ -26,4 +26,5 @@ RUN mkdir "$OUTPUT_DIR" \
  && chown "$USERNAME:$USERNAME" "$OUTPUT_DIR"
 COPY makepkg.conf /etc/makepkg.conf.d/z-makepkg.conf
 USER "$USERNAME"
+VOLUME "$OUTPUT_DIR"
 
