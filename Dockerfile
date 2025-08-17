@@ -21,7 +21,8 @@ RUN dir="$(mktemp -d)" \
  && rm -Rf "$dir"
 
 USER "root"
-RUN mkdir /packages
+RUN mkdir /packages \
+ && chown "$USERNAME:$USERNAME"
 COPY makepkg.conf /etc/makepkg.conf.d/z-makepkg.conf
 USER "$USERNAME"
 
