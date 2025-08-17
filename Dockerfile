@@ -20,9 +20,10 @@ RUN dir="$(mktemp -d)" \
  && popd \
  && rm -Rf "$dir"
 
+ARG OUTPUT_DIR="/packages"
 USER "root"
-RUN mkdir /packages \
- && chown "$USERNAME:$USERNAME"
+RUN mkdir "$OUTPUT_DIR" \
+ && chown "$USERNAME:$USERNAME" "$OUTPUT_DIR"
 COPY makepkg.conf /etc/makepkg.conf.d/z-makepkg.conf
 USER "$USERNAME"
 
