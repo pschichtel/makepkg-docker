@@ -1,4 +1,4 @@
-FROM ghcr.io/archlinux/archlinux:base-devel@sha256:4aa8c354ace7609a4bdcb39260611d8ac728ab04c6743e73e518cffeca468c33
+FROM ghcr.io/archlinux/archlinux:base-devel@sha256:994089b9f28549e56019a2b6871f51cb0292c47b57af50ff8410d4aa9017eb00
 
 RUN pacman -Syu --noconfirm
 RUN pacman -S --needed --noconfirm sudo curl git
