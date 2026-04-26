@@ -13,10 +13,20 @@ USER "$USERNAME"
 WORKDIR "$HOME"
 
 RUN dir="$(mktemp -d)" \
- && git clone https://aur.archlinux.org/yay.git "$dir" \
+ && pkg="yay" \
+ && git clone "https://aur.archlinux.org/$pkg.git" "$dir" \
  && pushd "$dir" \
  && makepkg --sync --noconfirm \
- && sudo pacman -U --noconfirm yay-*.pkg.tar.zst \
+ && sudo pacman -U --noconfirm "$pkg"-*.pkg.tar.zst \
+ && popd \
+ && rm -Rf "$dir"
+
+RUN dir="$(mktemp -d)" \
+ && pkg="paru" \
+ && git clone "https://aur.archlinux.org/$pkg.git" "$dir" \
+ && pushd "$dir" \
+ && makepkg --sync --noconfirm \
+ && sudo pacman -U --noconfirm "$pkg"-*.pkg.tar.zst \
  && popd \
  && rm -Rf "$dir"
 
@@ -27,4 +37,3 @@ RUN mkdir "$OUTPUT_DIR" \
 COPY makepkg.conf /etc/makepkg.conf.d/z-makepkg.conf
 USER "$USERNAME"
 VOLUME "$OUTPUT_DIR"
-
