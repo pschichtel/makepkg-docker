@@ -3,7 +3,7 @@ ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
 RUN yay -S --noconfirm --answerdiff None --answerclean None claude-code \
- && rm -Rf ~/.cache/yay
+ && rm -Rf ~/.cache/yay /packages/*
 
 RUN sudo pacman -Sy --noconfirm docker podman chromium rust nodejs npm \
  && sudo pacman -Sccc --noconfirm

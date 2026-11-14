@@ -21,7 +21,7 @@ RUN dir="$(mktemp -d)" \
  && makepkg --sync --rmdeps --noconfirm \
  && sudo pacman -U --noconfirm "$pkg"-*.pkg.tar.zst \
  && popd \
- && rm -Rf "$dir" \
+ && rm -Rf "$dir" "$HOME/.cache" \
  && sudo pacman -Sccc
 
 RUN dir="$(mktemp -d)" \
@@ -31,7 +31,7 @@ RUN dir="$(mktemp -d)" \
  && makepkg --sync --rmdeps --noconfirm \
  && sudo pacman -U --noconfirm "$pkg"-*.pkg.tar.zst \
  && popd \
- && rm -Rf "$dir" \
+ && rm -Rf "$dir" "$HOME/.cache" \
  && sudo pacman -Sccc
 
 ARG OUTPUT_DIR="/packages"
