@@ -18,19 +18,21 @@ RUN dir="$(mktemp -d)" \
  && pkg="yay" \
  && git clone "https://aur.archlinux.org/$pkg.git" "$dir" \
  && pushd "$dir" \
- && makepkg --sync --noconfirm \
+ && makepkg --sync --rmdeps --noconfirm \
  && sudo pacman -U --noconfirm "$pkg"-*.pkg.tar.zst \
  && popd \
- && rm -Rf "$dir"
+ && rm -Rf "$dir" \
+ && sudo pacman -Sccc
 
 RUN dir="$(mktemp -d)" \
  && pkg="paru" \
  && git clone "https://aur.archlinux.org/$pkg.git" "$dir" \
  && pushd "$dir" \
- && makepkg --sync --noconfirm \
+ && makepkg --sync --rmdeps --noconfirm \
  && sudo pacman -U --noconfirm "$pkg"-*.pkg.tar.zst \
  && popd \
- && rm -Rf "$dir"
+ && rm -Rf "$dir" \
+ && sudo pacman -Sccc
 
 ARG OUTPUT_DIR="/packages"
 USER "root"

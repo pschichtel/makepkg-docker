@@ -5,7 +5,7 @@ FROM $BASE_IMAGE
 RUN yay -S --noconfirm --answerdiff None --answerclean None claude-code \
  && rm -Rf ~/.cache/yay
 
-RUN sudo pacman -Sy --noconfirm docker podman chromium \
+RUN sudo pacman -Sy --noconfirm docker podman chromium rust nodejs npm \
  && sudo pacman -Sccc --noconfirm
 
 RUN sudo pacman -Sy --noconfirm opencode \
@@ -16,4 +16,7 @@ RUN sudo pacman -Sy --noconfirm qwen-code \
 
 RUN sudo systemctl enable containerd docker \
  && sudo gpasswd -a builder docker
+
+RUN sudo npm install -g @browsermcp/mcp@latest \
+ && sudo rm -Rf /root/.npm /tmp/node-compile-cache
 
