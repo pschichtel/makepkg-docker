@@ -5,7 +5,7 @@ FROM $BASE_IMAGE
 RUN yay -S --noconfirm --answerdiff None --answerclean None claude-code \
  && rm -Rf ~/.cache/yay /packages/*
 
-RUN sudo pacman -Sy --noconfirm docker podman chromium rust nodejs npm \
+RUN sudo pacman -Sy --noconfirm docker podman chromium rust nodejs npm htop bash-completion \
  && sudo pacman -Sccc --noconfirm
 
 RUN sudo pacman -Sy --noconfirm opencode \
