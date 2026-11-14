@@ -1,0 +1,19 @@
+ARG BASE_IMAGE
+
+FROM $BASE_IMAGE
+
+RUN yay -S --noconfirm --answerdiff None --answerclean None claude-code \
+ && rm -Rf ~/.cache/yay
+
+RUN sudo pacman -Sy --noconfirm docker podman chromium \
+ && sudo pacman -Sccc --noconfirm
+
+RUN sudo pacman -Sy --noconfirm opencode \
+ && sudo pacman -Sccc --noconfirm
+
+RUN sudo pacman -Sy --noconfirm qwen-code \
+ && sudo pacman -Sccc --noconfirm
+
+RUN sudo systemctl enable containerd docker \
+ && sudo gpasswd -a builder docker
+
