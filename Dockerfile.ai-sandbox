@@ -17,6 +17,7 @@ RUN sudo pacman -Sy --noconfirm qwen-code \
 RUN sudo systemctl enable containerd docker \
  && sudo systemctl mask systemd-firstboot.service \
  && sudo systemctl mask systemd-networkd-wait-online.service \
+ && sudo systemctl mask systemd-sysctl.service \
  && sudo gpasswd -a builder docker
 
 RUN sudo npm install -g @browsermcp/mcp@latest \
