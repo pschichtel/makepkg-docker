@@ -23,3 +23,7 @@ RUN sudo systemctl enable containerd docker \
 RUN sudo npm install -g @browsermcp/mcp@latest \
  && sudo rm -Rf /root/.npm /tmp/node-compile-cache
 
+COPY ai-sandbox/msb-install-ca.sh /usr/local/bin/msb-install-ca.sh
+COPY ai-sandbox/msb-install-ca.service /etc/systemd/system/msb-install-ca.service
+RUN sudo systemctl enable msb-install-ca.service
+
