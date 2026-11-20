@@ -1,0 +1,12 @@
+[Unit]
+Description=Install microsandbox CA into the system trust store
+After=local-fs.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/msb-install-ca.sh
+
+[Install]
+WantedBy=multi-user.target
+
